@@ -54,7 +54,7 @@
             };
 
             // Send POST request to the backend API
-            fetch('http://localhost:8086/predict', { // Change URL to match your backend
+            fetch('http://localhost:8086/api/titanic/predict', { // Change URL to match your backend
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
