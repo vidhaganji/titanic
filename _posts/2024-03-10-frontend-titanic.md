@@ -1,22 +1,26 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Titanic Survival Predictor</title>
-    <style>
-        /* Your CSS styles here */
+---
+toc: true
+layout: base
+search_exclude: false
+permalink: titanic
+courses: {compsci: {week: 26}}
+---
+
+
+## Lung Cancer
+<body>
+<style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #E6E6FA; /* Light Purple */
+            background-color: #f0f0f0;
             overflow-x: hidden;
             position: relative;
         }
         h1 {
             text-align: center;
             margin-bottom: 20px !important;
-            color: #fff; /* White text */
         }
         #floating-gif {
             position: absolute;
@@ -28,10 +32,10 @@
         }
         h2 {
             text-align: center;
-            color: #E6E6FA; /* White text */
+            color: #0d3b66;
             font-size: 28px;
             font-weight: bold;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Times New Roman', Times, serif;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 20px;
@@ -64,7 +68,7 @@
             margin-bottom: 15px;
         }
         input[type="submit"] {
-            background-color: #4B0082;
+            background-color: #0d3b66;
             color: #fff;
             border: none;
             padding: 15px 20px;
@@ -74,7 +78,7 @@
             transition: background-color 0.3s;
         }
         input[type="submit"]:hover {
-            background-color: #4B0082;
+            background-color: #0b304d;
         }
         /* Container for form and GIF */
         .container {
@@ -82,83 +86,63 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            margin-bottom: 50px; /* Modified margin */
-            font-family: 'Playfair Display', serif; /* Adding Playfair Display font */
-            color: #6a0dad; 
+            margin-bottom: 100px; 
         }
+
     </style>
-</head>
-<body>
-    <h1>Titanic Survival Predictor</h1>
-    <form id="titanicForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
-        <label for="pclass">Passenger Class:</label>
-        <select id="pclass" name="pclass" required>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-        </select><br><br>
-        <label for="sex">Sex:</label>
-        <select id="sex" name="sex" required>
+    <form id="lungCancerForm">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required><br><br>
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
             <option value="male">Male</option>
             <option value="female">Female</option>
         </select><br><br>
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required><br><br>
-        <label for="sibsp">Siblings/Spouses Aboard:</label>
-        <input type="number" id="sibsp" name="sibsp" required><br><br>
-        <label for="parch">Parents/Children Aboard:</label>
-        <input type="number" id="parch" name="parch" required><br><br>
-        <label for="fare">Fare:</label>
-        <input type="number" id="fare" name="fare" required><br><br>
-        <label for="embarked">Embarked:</label>
-        <select id="embarked" name="embarked" required>
-            <option value="C">Cherbourg</option>
-            <option value="Q">Queenstown</option>
-            <option value="S">Southampton</option>
+        <label for="smoking">Smoking:</label>
+        <select id="smoking" name="smoking" required>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
         </select><br><br>
-        <label for="alone">Alone:</label>
-        <input type="checkbox" id="alone" name="alone"><br><br>
-        <button type="button" onclick="predictSurvival()">Predict Survival</button>
+        <label for="anxiety">Anxiety:</label>
+        <select id="anxiety" name="anxiety" required>
+            <option value="true">High</option>
+            <option value="false">Low</option>
+        </select><br><br>
+        <button type="button" onclick="predictLungCancer()">Predict Lung Cancer</button>
     </form>
     <div id="result"></div>
     <script>
-        function predictSurvival() {
-            var form = document.getElementById('titanicForm');
-            var name = document.getElementById('name');
-            var resultDiv = document.getElementById('result');
-            var formData = {
-                pclass: form['pclass'].value,
-                sex: form['sex'].value,
-                age: form['age'].value,
-                sibsp: form['sibsp'].value,
-                parch: form['parch'].value,
-                fare: form['fare'].value,
-                embarked: form['embarked'].value,
-                alone: form['alone'].checked ? 'true' : 'false'
-            };
-            fetch('http://localhost:8086/api/titanic/predict', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                resultDiv.innerHTML = '<h2>Prediction Result for ' + name.value + '</h2>';
-                for (var key in data) {
-                    resultDiv.innerHTML += '<p>' + key + ': ' + data[key] + '</p>';
-                }
-                var deathProbability = parseFloat(data['death_percentage']);
-                var survivalProbability = parseFloat(data['survivability_percentage']);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
+    function predictLungCancer() {
+        var form = document.getElementById('lungCancerForm');
+        var age = form['age'];
+        var resultDiv = document.getElementById('result');
+        var formData = {
+            age: age.value,
+            gender: form['gender'].value,
+            smoking: form['smoking'].value,
+            anxiety: form['anxiety'].value
+        };
+        fetch('http://127.0.0.1:8086/api/lung/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            resultDiv.innerHTML = '<h2>Prediction Result for Age: ' + age.value + '</h2>';
+            for (var key in data) {
+                resultDiv.innerHTML += '<p>' + key + ': ' + data[key] + '</p>';
+            }
+            var cancerProbability = parseFloat(data['cancer_probability']);
+            // You can handle the response data as needed
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
     </script>
+
 </body>
-</html>
