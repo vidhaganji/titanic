@@ -111,7 +111,7 @@ courses: {compsci: {week: 26}}
         <button type="button" onclick="predictLungCancer()">Predict Lung Cancer</button>
     </form>
     <div id="result"></div>
-    <script>
+<script>
     function predictLungCancer() {
         var form = document.getElementById('lungCancerForm');
         var age = form['age'];
@@ -143,6 +143,6 @@ courses: {compsci: {week: 26}}
             console.error('Error:', error);
         });
     }
-    </script>
+</script>
 
 </body>
